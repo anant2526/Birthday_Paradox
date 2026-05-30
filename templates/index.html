@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% set active = "home" %}
+{% block title %}The Birthday Paradox — Home{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <div class="hero-inner container">
+        <h1>The Birthday Paradox</h1>
+        <p class="sub">A Complete Mathematical Investigation</p>
+        <p class="desc">Explore exact math, live simulations, and visual proofs in a futuristic research lab interface.</p>
+        <div class="hero-cta">
+            <a class="btn primary" href="/about">Explore Research</a>
+            <a class="btn ghost" href="/simulation">Run Simulation</a>
+            <a class="btn ghost" href="/pdf">View PDF</a>
+        </div>
+    </div>
+</section>
+
+<section class="container">
+    <div class="stat-grid">
+        <div class="stat-card">
+            <div class="stat-num">23</div>
+            <div class="stat-label">people → ~50% probability</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-num">57</div>
+            <div class="stat-label">people → ~99% probability</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-num">253</div>
+            <div class="stat-label">possible pairs at n = 23</div>
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+.gemini/
+.vercel/
+.DS_Store
+*.log
+*.aux
+*.toc
+*.lof
+*.out

@@ -1,0 +1,152 @@
+{% extends "base.html" %}
+{% set active = "simulation" %}
+{% block title %}Simulation — Birthday Paradox Problem Solver{% endblock %}
+
+{% block head %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="section-title">Birthday Paradox Simulator</h1>
+
+    <!-- Metrics Row -->
+    <div class="metrics-row">
+        <div class="metric-glass">
+            <div class="m-label">Simulated Prob.</div>
+            <div class="m-value" id="mSim">—</div>
+            <div class="m-sub" id="mSimSub">Run a batch first</div>
+        </div>
+        <div class="metric-glass">
+            <div class="m-label">Analytical Exact</div>
+            <div class="m-value" id="mAnal">—</div>
+            <div class="m-sub">Math formula result</div>
+        </div>
+        <div class="metric-glass">
+            <div class="m-label">50% Cross Size</div>
+            <div class="m-value" id="mCross">n = 23</div>
+            <div class="m-sub">Required population</div>
+        </div>
+        <div class="metric-glass">
+            <div class="m-label">Python Overhead</div>
+            <div class="m-value" id="mSpeed">— ms</div>
+            <div class="m-sub">NumPy batch time</div>
+        </div>
+    </div>
+
+    <!-- Simulation Layout -->
+    <div class="sim-layout">
+
+        <!-- LEFT: Control Panel -->
+        <div class="card control-panel">
+            <h4 style="display:flex;justify-content:space-between;align-items:center">
+                <span>⚙️ Control Panel</span>
+            </h4>
+
+            <!-- Mode Selector -->
+            <div class="form-group">
+                <label>Simulation Mode</label>
+                <div class="mode-grid">
+                    <button class="mode-btn active" data-mode="exact"><span class="mode-icon">📅</span><span>Exact Match</span></button>
+                    <button class="mode-btn" data-mode="near"><span class="mode-icon">⏳</span><span>Near-Match</span></button>
+                    <button class="mode-btn" data-mode="month"><span class="mode-icon">🌙</span><span>Birth-Month</span></button>
+                    <button class="mode-btn" data-mode="nonuniform"><span class="mode-icon">📈</span><span>Non-Uniform</span></button>
+                </div>
+            </div>
+
+            <!-- Group Size -->
+            <div class="form-group">
+                <label>Group Size (n) <span class="label-val" id="lblN">23</span></label>
+                <div class="slider-row">
+                    <input type="range" id="sliderN" min="1" max="100" value="23">
+                    <input type="number" id="numN" min="1" max="100" value="23">
+                </div>
+            </div>
+
+            <!-- Near Delta (conditional) -->
+            <div class="form-group" id="groupDelta" style="display:none">
+                <label>Near-Match Gap (δ days) <span class="label-val" id="lblDelta">1</span></label>
+                <div class="slider-row">
+                    <input type="range" id="sliderDelta" min="1" max="10" value="1">
+                    <input type="number" id="numDelta" min="1" max="10" value="1">
+                </div>
+            </div>
+
+            <!-- Distribution Editor (conditional) -->
+            <div class="dist-editor" id="distEditor">
+                <label style="margin-bottom:8px">Skew Distribution Profile</label>
+                <div class="dist-bars" id="distBars">
+                    <div class="dist-baseline"></div>
+                </div>
+                <div class="form-group" style="margin-bottom:10px">
+                    <label>Summer Peak <span class="label-val" id="lblPeak">3.0x</span></label>
+                    <input type="range" id="sliderPeak" min="0" max="6" step="0.2" value="3.0">
+                </div>
+                <div class="form-group">
+                    <label>Feb Trough <span class="label-val" id="lblTrough">-1.5x</span></label>
+                    <input type="range" id="sliderTrough" min="-3" max="0" step="0.1" value="-1.5">
+                </div>
+            </div>
+
+            <!-- Trials -->
+            <div class="form-group">
+                <label>Monte Carlo Trials</label>
+                <select id="selTrials">
+                    <option value="100">100 trials</option>
+                    <option value="500">500 trials</option>
+                    <option value="1000" selected>1,000 trials (balanced)</option>
+                    <option value="5000">5,000 trials (precise)</option>
+                    <option value="10000">10,000 trials (ultimate)</option>
+                </select>
+            </div>
+
+            <!-- Progress -->
+            <div class="progress-wrap" id="progressWrap">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+
+            <!-- Actions -->
+            <div class="action-row">
+                <button class="btn ghost" id="btnSingle">🎲 Single Run</button>
+                <button class="btn primary" id="btnBatch">🚀 Run Full Batch</button>
+            </div>
+        </div>
+
+        <!-- RIGHT: Visuals -->
+        <div>
+            <!-- Charts -->
+            <div class="card" style="margin-bottom:24px">
+                <div class="tabs-header">
+                    <button class="tab-btn active" data-tab="tabCurves">📊 Comparison Curves</button>
+                    <button class="tab-btn" data-tab="tabConv">📉 Error Convergence</button>
+                </div>
+                <div class="tab-panel active" id="tabCurves">
+                    <div class="chart-wrap"><canvas id="chartCurves"></canvas></div>
+                </div>
+                <div class="tab-panel" id="tabConv">
+                    <div class="chart-wrap"><canvas id="chartConv"></canvas></div>
+                </div>
+            </div>
+
+            <!-- Room Visualizer -->
+            <div class="card">
+                <h4>👥 Single-Run Room Visualizer</h4>
+                <div class="sandbox" id="sandbox">
+                    <div class="sandbox-empty">
+                        <div class="sandbox-empty-icon">🎲</div>
+                        <p>Click "Single Run" to generate a random room and spot matching birthdays!</p>
+                    </div>
+                </div>
+                <div class="match-alert" id="matchAlert">
+                    <span style="font-size:1.3rem" id="matchIcon">🎉</span>
+                    <span id="matchText"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="/static/js/simulation.js"></script>
+{% endblock %}

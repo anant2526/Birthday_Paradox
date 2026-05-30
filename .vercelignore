@@ -1,0 +1,11 @@
+.git
+.gemini
+.antigravityignore
+report.tex
+report.aux
+report.log
+report.toc
+report.lof
+report.out
+*.pyc
+__pycache__/

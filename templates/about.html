@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% set active = "about" %}
+{% block title %}About — The Birthday Paradox{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="section-title">About this Project</h1>
+
+    <div class="grid grid-2">
+        <div>
+            <div class="card" style="margin-bottom:24px">
+                <p>This research explores the Birthday Paradox, its combinatorial roots, probabilistic reasoning, and real-world implications in cryptography and hashing. The site provides exact calculations, visual explanations, and interactive experiments.</p>
+            </div>
+
+            <h3 class="section-title" style="font-size:1.4rem;margin-top:30px">Why intuition fails</h3>
+            <div class="card" style="margin-bottom:24px">
+                <p>The paradox grows from pair-counting: with <strong>n</strong> people there are <span class="mono">n(n−1)/2</span> pairs, not <strong>n</strong> comparisons to a fixed date. That combinatorial explosion quickly raises collision chances.</p>
+                <p style="margin-top:12px;color:var(--text-2)">For example, with just 23 people there are <span class="mono">253</span> unique pairs — each an independent opportunity for a birthday collision. The probability accumulates far faster than our linear intuition predicts.</p>
+            </div>
+
+            <h3 class="section-title" style="font-size:1.4rem;margin-top:30px">Mathematical reasoning</h3>
+            <div class="card">
+                <p>The exact probability that at least two people in a group of <span class="mono">n</span> share a birthday:</p>
+                <div class="formula-box">P(n) = 1 − ∏<sub>k=0</sub><sup>n−1</sup> (365 − k) / 365</div>
+                <p style="margin-top:10px;color:var(--text-2)">We implement precise calculations and Monte Carlo verification in the <a href="/simulation">Simulation page</a>.</p>
+                <div class="formula-box" style="margin-top:12px">Poisson Approximation: P(n) ≈ 1 − e<sup>−n(n−1)/(2×365)</sup></div>
+            </div>
+        </div>
+
+        <aside>
+            <div class="card">
+                <h4>Timeline</h4>
+                <ul class="timeline">
+                    <li><strong>1930s</strong> — Combinatorics foundations laid by Richard von Mises</li>
+                    <li><strong>1950s</strong> — Puzzle popularized in probability textbooks</li>
+                    <li><strong>1990s</strong> — Cryptography applications: birthday attack on hash functions</li>
+                    <li><strong>2020s</strong> — Interactive simulations & educational platforms</li>
+                </ul>
+            </div>
+
+            <div class="card" style="margin-top:20px">
+                <h4>Key Insight</h4>
+                <p style="color:var(--text-2);font-size:.92rem">The paradox isn't about matching <em>your</em> birthday — it's about <em>any</em> two people matching. The number of pairs grows quadratically: <span class="mono">O(n²)</span></p>
+            </div>
+        </aside>
+    </div>
+</div>
+{% endblock %}

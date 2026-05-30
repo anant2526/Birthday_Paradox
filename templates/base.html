@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>{% block title %}The Birthday Paradox{% endblock %}</title>
+    <meta name="description" content="A complete mathematical investigation of the Birthday Paradox with live simulations, exact calculations, and visual proofs.">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="/static/js/three-background.js"></script>
+    {% block head %}{% endblock %}
+</head>
+<body>
+    <header>
+        <nav class="navbar container">
+            <a href="/" class="brand">The Birthday Paradox</a>
+            <button class="hamburger" id="hamburger">☰</button>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="/" {% if active == 'home' %}class="active"{% endif %}>Home</a></li>
+                <li><a href="/about" {% if active == 'about' %}class="active"{% endif %}>About</a></li>
+                <li><a href="/simulation" {% if active == 'simulation' %}class="active"{% endif %}>Simulation</a></li>
+                <li><a href="/team" {% if active == 'team' %}class="active"{% endif %}>Team</a></li>
+                <li><a href="/guidance" {% if active == 'guidance' %}class="active"{% endif %}>Guidance</a></li>
+                <li><a href="/pdf" {% if active == 'pdf' %}class="active"{% endif %}>PDF</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="site-footer">
+        <div class="container footer-inner">
+            <div>Department of Mathematics — Newton School of Technology (S-VYASA), Bengaluru</div>
+            <div class="footer-links">
+                <a href="#">Twitter</a>
+                <a href="#">LinkedIn</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('hamburger').addEventListener('click',()=>{
+            document.getElementById('navLinks').classList.toggle('open');
+        });
+    </script>
+    {% block scripts %}{% endblock %}
+</body>
+</html>

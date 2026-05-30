@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% set active = "pdf" %}
+{% block title %}Project PDF — The Birthday Paradox{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="section-title">Project PDF</h1>
+    <div class="pdf-embed">
+        <iframe src="/static/Birthday_Paradox_Report.pdf" title="Birthday Paradox PDF"></iframe>
+        <div style="margin-top:18px">
+            <a class="btn primary" href="/static/Birthday_Paradox_Report.pdf" download>Download PDF</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
